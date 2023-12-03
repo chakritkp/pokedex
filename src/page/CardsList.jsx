@@ -1,70 +1,48 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getData, apiSelector } from "../hook/store/slices/apiSlice";
-import { addCard } from "../hook/store/slices/myPokedexSlice";
-import searchIcon from "../../public/assets/search.png";
-
+import {
+  cardListSelector,
+  fetchCards,
+  addCard
+} from "../hook/store/slices/cardListSlice";
+import searchIcon from "../assets/search.png";
 import Card from "../component/card";
 
-function CardsList() {
+const CardsList = () => {
   const dispatch = useDispatch();
-  const { data, status, error } = useSelector(apiSelector);
-
-  const [cardData, setCardData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleAddCard = (cardLevelValue) => {
-    dispatch(addCard(cardLevelValue));
-    const myCardItemsString = window.localStorage.getItem("my_card");
-
-    let myCard = myCardItemsString ? JSON.parse(myCardItemsString) : [];
-
-    if (!myCard.some((userCard) => userCard.id === cardLevelValue.id)) {
-      myCard.push(cardLevelValue);
-      localStorage.setItem("my_card", JSON.stringify(myCard));
-
-      setTimeout(() => {
-        setCardData((prevCardData) =>
-          prevCardData.filter((card) => card.id !== cardLevelValue.id)
-        );
-        alert("Success !");
-      }, 3000);
-    }
-  };
+  const [cardList, setCardList] = useState([]);
+  const datalist = useSelector(cardListSelector);
 
   useEffect(() => {
-    dispatch(getData());
-  }, []);
+    dispatch(fetchCards());
+  }, [dispatch,datalist]);
+  
 
   useEffect(() => {
-    if (data.cards) {
-      const filteredCards = data.cards.filter((card) =>
+    if (searchTerm === "") {
+      setCardList(datalist);
+    } else {
+      const filteredCards = datalist.filter((card) =>
         card.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      setCardData(filteredCards);
+      setCardList(filteredCards);
     }
-  }, [data.cards, searchTerm]);
+  }, [searchTerm, datalist]);
 
-  useEffect(() => {
-    const myCardItemsString = window.localStorage.getItem("my_card");
-    const myCard = myCardItemsString ? JSON.parse(myCardItemsString) : [];
-
-    if (!Array.isArray(myCard)) {
-      console.log("Invalid my_card format");
-      return;
-    }
-    const myCardIds = new Set(myCard.map((card) => card.id));
-
-    if (data.cards) {
-      const uniqueCards = data.cards.filter((card) => !myCardIds.has(card.id));
-
-      setCardData(uniqueCards);
-    }
-  }, [data.cards]);
+  const handleAddCard = (event) => {
+    const newCard = {
+      id: event.id,
+      img: event.img,
+      name: event.name,
+      hp: event.hp,
+      str: event.str,
+      weak: event.weak,
+      happiness: event.happiness,
+    };
+    dispatch(addCard(newCard));
+    
+  };
 
   return (
     <main className="absolute z-50 w-[800px] bg-white flex flex-col gap-3 py-3 justify-center items-center left-1/2 top-0 transform -translate-x-1/2 bg-transparent">
@@ -73,8 +51,7 @@ function CardsList() {
           type="text"
           className="searchBoxBorder w-full h-[50px] p-3 text-black"
           placeholder="Find pokemon"
-          value={searchTerm}
-          onChange={handleSearchChange}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
         <img
           src={searchIcon}
@@ -82,21 +59,22 @@ function CardsList() {
           alt={searchIcon}
         />
       </div>
-      {cardData.map((cardData) => (
+      {cardList.map((cardData) => (
         <Card
-          // key={cardData.id}
+          key={cardData.id}
           id={cardData.id}
           img={cardData.imageUrl}
           name={cardData.name}
-          hp={cardData.hp}
-          str={cardData.attacks}
-          weak={cardData.weaknesses}
+          hp={cardData.hpValue}
+          str={cardData.strLevel}
+          weak={cardData.weakLevel}
+          happiness={cardData.happiness}
           handleAddCard={handleAddCard}
         />
       ))}
     </main>
   );
-}
+};
 // }
 
 export default CardsList;

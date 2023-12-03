@@ -1,81 +1,19 @@
-import { useEffect, useState } from "react";
-import iconhHappiness from "../../public/assets/cute.png";
+import iconhHappiness from "../assets/cute.png";
 
-const Card = ({ id, img, name, hp, str, weak, handleAddCard }) => {
-  const [levelValue, setLevelValue] = useState({
-    id: id,
-    name:name,
-    img:img,
-    hpValue: 0,
-    strValue: 0,
-    weakValue: 0,
-    damageValue: 0,
-    happinessValue: 0,
-  });
-
-  useEffect(() => {
-    const strLevel =
-      Array.isArray(str) && str.length > 0
-        ? str.length * 50 > 100
-          ? 100
-          : str.length * 50
-        : 0;
-    const weakLevel = Array.isArray(weak)
-      ? weak.length * 100 > 100
-        ? 100
-        : weak.length * 100
-      : 0;
-
-    const calculateDamage = (attacks) => {
-      if (!Array.isArray(attacks)) {
-        return 0;
-      }
-
-      let totalDamage = 0;
-      for (let i = 0; i < attacks.length; i++) {
-        const damageString = attacks[i].damage;
-        const numericValue = parseInt(damageString);
-        const damageValue = isNaN(numericValue) ? 0 : numericValue;
-        totalDamage += damageValue;
-      }
-      return totalDamage;
-    };
-
-    const totalDamage = calculateDamage(str);
-
-    const HappinessLevel = Math.round(
-      (levelValue.hpValue / 10 +
-        levelValue.damageValue / 10 +
-        10 -
-        levelValue.weakValue / 100) /
-        5
-    );
-
-    setLevelValue((prevState) => ({
-      ...prevState,
-      hpValue: hp > 100 ? 100 : hp === "None" ? 0 : parseInt(hp),
-      strValue: strLevel,
-      weakValue: weakLevel,
-      damageValue: totalDamage,
-      happinessValue: HappinessLevel,
-    }));
-  }, [hp, str, weak, levelValue.damageValue, levelValue.happinessValue]);
-
-  const icons = Array.from({ length: levelValue.happinessValue }).map(
-    (_, index) => (
-      <img
+const Card = ({ id, img, name, hp, str, weak, happiness, handleAddCard }) => {
+  const icons = Array.from({ length: happiness }).map((_, index) => (
+    <img
       key={index}
       className="w-10 pb-2"
       src={iconhHappiness}
       alt="{iconhHappiness}"
     />
-    )
-  );
+  ));
 
   return (
     <div
       className="card w-[95%] h-[200px] flex justify-between items-center"
-      key="1"
+      key={id}
     >
       <div className="w-1/6 m-2" key={id}>
         <img className="w-fit h-[190px]" src={img} alt={img} />
@@ -88,7 +26,7 @@ const Card = ({ id, img, name, hp, str, weak, handleAddCard }) => {
           <div className="flex relative w-full">
             <span
               className="levelTubelValue h-full rounded-full absolute z-10"
-              style={{ width: levelValue.hpValue + "%" }}
+              style={{ width: hp + "%" }}
             ></span>
             <span className="levelTube w-[100%] h-full rounded-full absolute z-1"></span>
           </div>
@@ -99,7 +37,7 @@ const Card = ({ id, img, name, hp, str, weak, handleAddCard }) => {
           <div className="flex relative w-full">
             <span
               className="levelTubelValue h-full rounded-full absolute z-10"
-              style={{ width: levelValue.strValue + "%" }}
+              style={{ width: str + "%" }}
             ></span>
             <span className="levelTube w-[100%] h-full rounded-full absolute z-1"></span>
           </div>
@@ -110,7 +48,7 @@ const Card = ({ id, img, name, hp, str, weak, handleAddCard }) => {
           <div className="flex relative w-full">
             <span
               className="levelTubelValue h-full rounded-full absolute z-10"
-              style={{ width: levelValue.weakValue + "%" }}
+              style={{ width: weak + "%" }}
             ></span>
             <span className="levelTube w-[100%] h-full rounded-full absolute z-1"></span>
           </div>
@@ -121,7 +59,18 @@ const Card = ({ id, img, name, hp, str, weak, handleAddCard }) => {
       <div className="w-1/6 h-full flex justify-end items-start">
         <button
           className="addBtn m-3 font-black text-lg"
-          onClick={() => handleAddCard(levelValue)}
+          onClick={() =>
+            handleAddCard({
+              id,
+              img,
+              name,
+              hp,
+              str,
+              weak,
+              happiness,
+              handleAddCard,
+            })
+          }
         >
           Add
         </button>

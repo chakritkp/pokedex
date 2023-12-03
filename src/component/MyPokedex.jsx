@@ -1,20 +1,11 @@
 // MyPokedex.jsx
 import React, { useState, useEffect } from "react";
-import iconhHappiness from "../../public/assets/cute.png";
+import iconhHappiness from "../assets/cute.png";
 
-const MyPokedex = ({ id, img, name, hp, str, weak, damege, happiness, handleRemoveCard }) => {
-  const [levelValue, setLevelValue] = useState({
-    id: id,
-    name: name,
-    img: img,
-    hpValue: hp,
-    strValue: str,
-    weakValue: weak,
-    damageValue: damege,
-    happinessValue: happiness,
-  });
+const MyPokedex = ({ id, img, name, hp, str, weak, happiness, handleRemoveCard }) => {
 
-  const icons = Array.from({ length: levelValue.happinessValue }).map(
+
+  const icons = Array.from({ length: happiness }).map(
     (_, index) => (
       <img
         key={index}
@@ -30,18 +21,18 @@ const MyPokedex = ({ id, img, name, hp, str, weak, damege, happiness, handleRemo
       className="card w-[45%] h-[250px] flex justify-between items-center"
       // key={index}
     >
-      <div className="h-full m-5" key={levelValue.id}>
-        <img className="w-fit" src={levelValue.img} alt={levelValue.img} />
+      <div className="h-full m-5" key={id}>
+        <img className="w-fit" src={img} alt={img} />
       </div>
       <div className="flex flex-col justify-around w-4/6 h-[200px]">
-        <h3 className="text-xl font-thin uppercase">{levelValue.name}</h3>
+        <h3 className="text-xl font-thin uppercase">{name}</h3>
 
         <div className="flex justify-start mr-3">
           <p className="text-base font-bold w-16">HP</p>
           <div className="flex relative w-full">
             <span
               className="levelTubelValue h-full rounded-full absolute z-10"
-              style={{ width: `${levelValue.hpValue}%` }}
+              style={{ width: `${hp}%` }}
             ></span>
             <span className="levelTube w-[100%] h-full rounded-full absolute z-1"></span>
           </div>
@@ -52,7 +43,7 @@ const MyPokedex = ({ id, img, name, hp, str, weak, damege, happiness, handleRemo
           <div className="flex relative w-full">
             <span
               className="levelTubelValue h-full rounded-full absolute z-10"
-              style={{ width: `${levelValue.strValue}%` }}
+              style={{ width: `${str}%` }}
             ></span>
             <span className="levelTube w-[100%] h-full rounded-full absolute z-1"></span>
           </div>
@@ -63,7 +54,7 @@ const MyPokedex = ({ id, img, name, hp, str, weak, damege, happiness, handleRemo
           <div className="flex relative w-full">
             <span
               className="levelTubelValue h-full rounded-full absolute z-10"
-              style={{ width: `${levelValue.weakValue}%` }}
+              style={{ width: `${weak}%` }}
             ></span>
             <span className="levelTube w-[100%] h-full rounded-full absolute z-1"></span>
           </div>
@@ -74,7 +65,7 @@ const MyPokedex = ({ id, img, name, hp, str, weak, damege, happiness, handleRemo
       <div className="w-1/6 h-full flex justify-end items-start">
         <button
           className="addBtn m-3 font-black text-lg"
-            onClick={() => handleRemoveCard(levelValue.id)}
+            onClick={(e) => handleRemoveCard(id)}
         >
           X
         </button>
