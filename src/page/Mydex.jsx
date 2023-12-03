@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { removeCard } from "../hook/store/slices/cardListSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { cardListSelector, removeCard } from "../hook/store/slices/cardListSlice";
 
 import BottonBar from "../component/ButtonBar";
 import MyPokedex from "../component/MyPokedex"
@@ -10,15 +10,16 @@ import "../App.css";
 const Mydex = () => {
   const dispatch = useDispatch();
   const [datalist, setDatalist] = useState([]);
+  const cardList = useSelector(cardListSelector);
 
   useEffect(() => {
     const initialData = JSON.parse(localStorage.getItem("pokemonList")) || [];
     setDatalist(initialData);
-  }, [datalist]);
+  }, [cardList]);
 
   const handleRemoveCard = (event) => {
-    console.log(event)
     dispatch(removeCard(event))
+    setDatalist(JSON.parse(localStorage.getItem("pokemonList")) || []);
   }
 
   return (

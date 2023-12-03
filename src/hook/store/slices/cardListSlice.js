@@ -61,11 +61,9 @@ export const cardListSlice = createSlice({
     removeCard: (state, action) => {
       const cardIdToRemove = action.payload;
       const storedData = JSON.parse(localStorage.getItem("pokemonList"));
-      
-      // console.log(cardIdToRemove)
-      // console.log(storedData[0].id)
+
       const updatedData = storedData.filter((item) => item.id !== cardIdToRemove);
-      console.log(updatedData)
+
       localStorage.setItem("pokemonList", JSON.stringify(updatedData));
     },
   },
