@@ -6,7 +6,7 @@ import {
   addCard,
 } from "../hook/store/slices/cardListSlice";
 import searchIcon from "../assets/search.png";
-import Card from "../component/card";
+import Card from "../component/Card";
 
 const CardsList = () => {
   const dispatch = useDispatch();
