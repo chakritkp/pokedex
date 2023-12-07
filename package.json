@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"vite\" \"node ./src/server.js\"",
-    "build": "concurrently \"vite build\" \"node ./src/server.js\"",
+    "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "api": "node ./src/server.js",
     "preview": "vite preview"
