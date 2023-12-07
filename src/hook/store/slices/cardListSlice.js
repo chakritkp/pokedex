@@ -91,8 +91,9 @@ const happinessLevel = (hpValue, damageValue, weakValue) => {
 };
 
 export const fetchCards = () => async (dispatch) => {
+
   try {
-    const response = (await getData()).data.cards;
+    const response = (await getData()).data;
 
     const savedPokemonList =
       JSON.parse(localStorage.getItem("pokemonList")) || [];
