@@ -6,11 +6,10 @@
   "scripts": {
     "start": "concurrently \"npm run api\" \"npm run dev\"",
     "dev": "vite",
-    "build": "vite build && npm run start-server",
+    "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "api": "node ./server/server.js",
-    "preview": "vite preview",
-    "start-server": "node dist/server.js"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",

@@ -2,7 +2,7 @@
 
 Chakrikt Kaewploy
 
-- You can run project by `npm run api`
+- You can run project by `npm run start`
 
 # AppMan Pokédex (My Pokémon cards list)
 
