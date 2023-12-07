@@ -22,7 +22,9 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run dev
+        run: 
+          npm run api
+          npm run build
 
   deploy:
     runs-on: ubuntu-latest
@@ -40,7 +42,12 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run dev
+        run:
+          npm run api 
+          npm run build
+
+      - name: Start API
+        run: nohup npm run api &
 
       - name: Deploy to Firebase
         run: |
