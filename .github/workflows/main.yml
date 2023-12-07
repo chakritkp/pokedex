@@ -20,11 +20,18 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
+  
       - name: Build the Vite app
         run: npm run build
-
-      - name: Deploy to Firebase
-        run: |
-          npm install -g firebase-tools
-          firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
+  
+  deploy:
+      runs-on: ubuntu-latest
+  
+      needs: build
+  
+      steps:
+        - name: Install Firebase Tools
+          run: npm install -g firebase-tools
+  
+        - name: Deploy to Firebase
+          run: firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
