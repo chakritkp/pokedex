@@ -3,7 +3,7 @@ import cors from "cors";
 import _ from "lodash";
 const app = express();
 
-import cards from "./../mock/cards.json" assert { type: "json"} ;
+import cards from "../mock/cards.json" assert { type: "json"} ;
 
 app.use(cors());
 
