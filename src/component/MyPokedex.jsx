@@ -1,4 +1,3 @@
-// MyPokedex.jsx
 import React, { useState, useEffect } from "react";
 import iconhHappiness from "../assets/cute.png";
 
