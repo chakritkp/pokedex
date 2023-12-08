@@ -20,7 +20,7 @@ const BottonBar = ({ children }) => {
       {isCardsListVisible && (
         <>
           <div
-            className="fixed top-0 left-0 w-full h-full z-40 opacity-80 bg-black" // CSS class สำหรับพื้นหลังสีดำทึบ
+            className="fixed top-0 left-0 w-full h-full z-40 opacity-80 bg-black"
             onClick={closeCardsList}
           ></div>
           <CardsList onClose={closeCardsList} />
